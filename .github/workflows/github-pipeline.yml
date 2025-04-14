@@ -19,6 +19,10 @@ on:
   schedule:
     - cron: '0 8 * * 1-5'  # Будние дни в 8:00 UTC
 
+permissions:
+  checks: write
+  contents: read
+
 jobs:
   pytest-api:
     runs-on: ubuntu-latest
