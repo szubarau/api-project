@@ -4,18 +4,18 @@ on:
   workflow_dispatch:
     inputs:
       subscription:
-        description: 'Какие тесты запускать'
+        description: 'Scopes'
         required: true
         default: 'regression'
         type: choice
         options:
-          - smoke    # Быстрая проверка основных функций
-          - regression  # Полный набор тестов
+          - smoke
+          - regression
 
   push:
     branches:
       - main
-    paths-ignore:    # Игнорируем изменения в документации
+    paths-ignore:
       - 'README.md'
       - '**.docs'
 
@@ -31,13 +31,12 @@ jobs:
   api-tests:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3   # Новейшая версия
-
+      - uses: actions/checkout@v3
       - name: Установка Python
         uses: actions/setup-python@v4
         with:
           python-version: ${{ env.PYTHON_VERSION }}
-          cache: 'pip'  # Кэшируем зависимости для ускорения
+          cache: 'pip'
 
       - name: Установка зависимостей
         run: |
@@ -58,7 +57,7 @@ jobs:
           fi
 
       - name: Генерация Allure отчета
-        if: always()  # Выполняем даже если тесты упали
+        if: always()
         uses: simple-elf/allure-report-action@v1
         with:
           allure_results: ${{ env.ALLURE_RESULTS }}
