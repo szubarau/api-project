@@ -1,5 +1,4 @@
 import pytest
-
 from controllers.api import GoogleMapsApi
 from support.assertion import Assertion
 
@@ -50,7 +49,7 @@ class TestCreatePlace:
                                                    "accuracy": "50", "name": "Frontline house",
                                                    "phone_number": "(+91) 983 893 3937",
                                                    "address": "100 Lenina street, RU", "types": "shoe park,shop",
-                                                   "website": "http://google.com", "language": "French-IN"})
+                                                   "website": "http://google.com/", "language": "French-IN"})
 
     @pytest.mark.smoke
     @pytest.mark.regression
