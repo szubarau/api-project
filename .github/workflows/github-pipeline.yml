@@ -47,7 +47,7 @@ jobs:
           fi
 
       - name: Upload JUnit XML report
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: junit-report
           path: result.xml
