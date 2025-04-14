@@ -64,13 +64,13 @@ jobs:
           allure_results: ${{ env.ALLURE_RESULTS }}
           allure_report: ${{ env.ALLURE_REPORT }}
 
-      - name: Загрузка отчета как артефакт
+      - name: Upload Allure report as artifact
         if: always()
-        uses: actions/upload-artifact@v4  # Используем v4 вместо v3
+        uses: actions/upload-artifact@v4
         with:
           name: allure-report
-          path: ${{ env.ALLURE_REPORT }}
-          retention-days: 7  # Храним 7 дней
+          path: allure-report/
+          retention-days: 7
 
       - name: Публикация JUnit отчета
         if: always()
