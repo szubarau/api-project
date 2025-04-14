@@ -1,5 +1,5 @@
 import requests
-from utils.logger import Logger
+from support.logger import Logger
 
 
 class Request:
