@@ -14,7 +14,7 @@ on:
 
   push:
     branches:
-      - master
+      - main
 
   schedule:
     - cron: '0 8 * * 1-5'  # Будние дни в 8:00 UTC
