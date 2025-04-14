@@ -7,3 +7,6 @@ pydantic
 dotenv
 python-dotenv
 pydantic
+dotenv
+python-dotenv
+pydantic
