@@ -3,8 +3,8 @@ name: API Test Automation
 on:
   workflow_dispatch:
     inputs:
-      subscription:
-        description: 'Scopes'
+      test_scope:
+        description: 'Select test scope to run'
         required: true
         default: 'regression'
         type: choice
@@ -13,11 +13,10 @@ on:
           - regression
 
   push:
-    branches:
-      - main
+    branches: [ main ]
     paths-ignore:
       - 'README.md'
-      - '**.docs'
+      - 'docs/**'
 
   schedule:
     - cron: '0 8 * * 1-5'  # По будням в 8:00 UTC
@@ -31,48 +30,56 @@ jobs:
   api-tests:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - name: Установка Python
-        uses: actions/setup-python@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ env.PYTHON_VERSION }}
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ env.PYTHON_VERSION }}
           cache: 'pip'
 
-      - name: Установка зависимостей
+      - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
+          pip install pytest==7.4.0
+          pip install allure-pytest==2.13.0
           pip install -r requirements.txt
 
-      - name: Запуск тестов
+      - name: Run tests
         run: |
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            pytest -m ${{ github.event.inputs.subscription }} \
+            echo "Running ${{ github.event.inputs.test_scope }} tests"
+            pytest -m "${{ github.event.inputs.test_scope }}" \
                    --alluredir=${{ env.ALLURE_RESULTS }} \
                    --junitxml=test-results.xml \
                    -v
           else
+            echo "Running all tests"
             pytest --alluredir=${{ env.ALLURE_RESULTS }} \
                    --junitxml=test-results.xml \
                    -v
           fi
 
-      - name: Генерация Allure отчета
+      - name: Generate Allure report
         if: always()
         uses: simple-elf/allure-report-action@v1
         with:
           allure_results: ${{ env.ALLURE_RESULTS }}
           allure_report: ${{ env.ALLURE_REPORT }}
+          ignore_errors: true
 
-      - name: Upload Allure report as artifact
+      - name: Upload Allure report
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: allure-report
-          path: allure-report/
+          path: ${{ env.ALLURE_REPORT }}
           retention-days: 7
 
-      - name: Публикация JUnit отчета
+      - name: Publish JUnit results
         if: always()
         uses: mikepenz/action-junit-report@v5
         with:
           report_paths: 'test-results.xml'
+          require_tests: true
