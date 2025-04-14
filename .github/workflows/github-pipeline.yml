@@ -37,4 +37,17 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      - name: Run tests
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "Running tests with scope: ${{ github.event.inputs.subscription }}"
+            pytest -m ${{ github.event.inputs.subscription }} --junitxml=result.xml --disable-warnings -v
+          else
+            echo "Running full test suite"
+            pytest --junitxml=result.xml --disable-warnings -v
 
+      - name: Publish Test Report
+        uses: mikepenz/action-junit-report@v5
+        if: success() || failure()
+        with:
+          report_paths: 'result.xml'
