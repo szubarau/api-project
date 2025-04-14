@@ -56,14 +56,19 @@ jobs:
           allure generate allure-results --clean -o allure-report
         continue-on-error: true
 
-      - name: Check if allure-report exists
+      - name: Check if allure-report exists and is not empty
         run: |
-          if [ -d "allure-report" ]; then
-            echo "Allure report directory exists."
+          if [ -d "allure-report" ] && [ "$(ls -A allure-report)" ]; then
+            echo "Allure report directory exists and is not empty."
           else
-            echo "Allure report directory does not exist!"
+            echo "Allure report directory does not exist or is empty!"
             exit 1
           fi
+
+      - name: List contents of allure-report
+        run: |
+          echo "Contents of allure-report directory:"
+          ls -l allure-report/
 
       - name: Upload Allure Report as Artifact
         uses: actions/upload-artifact@v3
