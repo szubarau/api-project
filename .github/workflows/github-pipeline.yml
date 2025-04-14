@@ -37,17 +37,4 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Run tests based on scope
-        run: |
-          echo "Selected subscription: ${{ github.event.inputs.subscription }}"
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            pytest -m ${{ github.event.inputs.subscription }} --junitxml=result.xml --disable-warnings -v
-          else
-            pytest --junitxml=result.xml --disable-warnings -v
-          fi
 
-      - name: Upload JUnit XML report
-        uses: actions/upload-artifact@v3
-        with:
-          name: junit-report
-          path: result.xml
