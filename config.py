@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-Base_url = os.getenv('Base_url')
+Base_url = os.getenv('BASE_URL')
 
 
 Key = '?key=qaclick123'
