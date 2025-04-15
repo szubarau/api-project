@@ -52,7 +52,9 @@ jobs:
           name: junit-results
           path: test-results/junit.xml
 
-      - name: Publish test results to GitHub UI
-        uses: actions/upload-test-results@v2
+      - name: Publish Test Report
+        uses: dorny/test-reporter@v1
         with:
-          files: test-results/junit.xml
+          name: Pytest Results
+          path: test-results/junit.xml
+          reporter: java-junit
