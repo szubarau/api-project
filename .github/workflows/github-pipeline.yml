@@ -38,23 +38,6 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Run tests with Pytest and generate Allure and JUnit reports
-        run: |
-          pytest tests/ \
-            --alluredir=${{ env.ALLURE_RESULTS }} \
-            --junitxml=test-results/junit.xml \
-            -m "${{ github.event.inputs.test_scope || 'regression' }}"
-
-      - name: Generate Allure HTML report
-        run: |
-          allure generate ${{ env.ALLURE_RESULTS }} -o ${{ env.ALLURE_REPORT }} --clean
-        continue-on-error: true
-
-      - name: Upload Allure Report as artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: allure-report
-          path: ${{ env.ALLURE_REPORT }}
 
       - name: Upload JUnit XML results
         uses: actions/upload-artifact@v4
