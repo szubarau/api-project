@@ -15,6 +15,10 @@ on:
   schedule:
     - cron: '0 8 * * 1-5'  # По будням в 8:00 UTC
 
+permissions:
+  checks: write
+  contents: read
+
 env:
   PYTHON_VERSION: '3.9'
 
