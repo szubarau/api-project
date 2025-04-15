@@ -17,8 +17,6 @@ on:
 
 env:
   PYTHON_VERSION: '3.9'
-  ALLURE_RESULTS: 'allure-results'
-  ALLURE_REPORT: 'allure-report'
 
 jobs:
   api-tests:
@@ -37,7 +35,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-          pip install allure-pytest
+
 
       - name: Run tests with Pytest
         run: |
