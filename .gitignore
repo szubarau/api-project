@@ -3,3 +3,9 @@
 logs/
 __pycache__/
  **/pycache
+**allure-results/
+pytest_html_report.html
+result.xml
+**logfile.log
+archive/
+pytest_report/
