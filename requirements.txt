@@ -4,6 +4,4 @@ assertpy
 dotenv
 python-dotenv
 pydantic
-pytest-allure-adaptor
-allure-pytest
 pytest-html-reporter
