@@ -40,10 +40,11 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Load .env file
-        uses: c-py/action-dotenv-to-env@v2
-        with:
-          dotenv-file: .env
+      - name: Load .env variables manually
+        run: |
+          set -o allexport
+          source .env
+          set +o allexport
 
       - name: Run tests with Pytest
         run: |
